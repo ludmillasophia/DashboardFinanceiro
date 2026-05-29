@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Controle Financeiro</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Menu principal">
+        <div class="brand">
+          <span class="brand-mark">$</span>
+          <div>
+            <strong data-i18n="brandName">Finança</strong>
+            <span data-i18n="brandSubtitle">controle mensal</span>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <a class="active" href="#resumo" aria-current="page" data-i18n="navSummary">Resumo</a>
+          <a href="#adicionar" data-i18n="navAdd">Adicionar</a>
+          <a href="#gastos" data-i18n="navSpending">Gastos</a>
+          <a href="#metas" data-i18n="navGoals">Metas</a>
+          <a href="#categorias" data-i18n="navCategories">Categorias</a>
+        </nav>
+      </aside>
+
+      <main class="dashboard">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" data-i18n="heroKicker">Controle Financeiro</p>
+            <h1 data-i18n="heroTitle">Visão clara do seu dinheiro</h1>
+            <p class="hero-copy" data-i18n="heroCopy">Cadastre entradas, saídas e metas para acompanhar seu mês em tempo real.</p>
+          </div>
+
+          <div class="controls" aria-label="Controles financeiros">
+            <label class="field">
+              <span data-i18n="month">Mês</span>
+              <div class="year-switcher" aria-label="Selecionar ano">
+                <button id="prevYear" type="button" aria-label="Ano anterior">‹</button>
+                <strong id="yearLabel">2026</strong>
+                <button id="nextYear" type="button" aria-label="Próximo ano">›</button>
+              </div>
+              <div class="month-tabs" id="monthTabs" aria-label="Filtrar por mês"></div>
+            </label>
+
+            <button class="language-toggle" id="languageToggle" type="button" aria-label="Alternar idioma">
+              <span>PT</span>
+              <span>EN</span>
+            </button>
+
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema">
+              <span class="sun">☀</span>
+              <span class="moon">◐</span>
+            </button>
+
+            <button class="ghost-action" id="resetData" type="button" data-i18n="reset">Zerar</button>
+          </div>
+        </header>
+
+        <section class="summary-grid view-section" id="resumo" data-view="resumo" aria-label="Resumo financeiro">
+          <article class="metric income">
+            <span data-i18n="income">Receitas</span>
+            <strong id="incomeValue">R$ 0</strong>
+            <small id="incomeTrend">+0% vs mês anterior</small>
+          </article>
+
+          <article class="metric expense">
+            <span data-i18n="expenses">Gastos</span>
+            <strong id="expenseValue">R$ 0</strong>
+            <small id="expenseTrend">+0% vs mês anterior</small>
+          </article>
+
+          <article class="metric balance">
+            <span data-i18n="balance">Saldo</span>
+            <strong id="balanceValue">R$ 0</strong>
+            <small id="savingsRate">0% guardado</small>
+          </article>
+
+          <article class="metric goal">
+            <span data-i18n="goals">Metas</span>
+            <strong id="goalValue">0%</strong>
+            <small data-i18n="avgProgress">progresso médio</small>
+          </article>
+        </section>
+
+        <section class="content-grid view-section" data-view="adicionar">
+          <article class="panel entry-panel" id="adicionar">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow" data-i18n="addKicker">Adicionar valores</p>
+                <h2 data-i18n="newEntry">Novo lançamento</h2>
+              </div>
+            </div>
+
+            <form class="entry-form" id="transactionForm">
+              <label>
+                <span data-i18n="type">Tipo</span>
+                <select id="entryType" required>
+                  <option value="expense" data-i18n="expenseOption">Saída</option>
+                  <option value="income" data-i18n="incomeOption">Entrada</option>
+                </select>
+              </label>
+
+              <label>
+                <span data-i18n="description">Descrição</span>
+                <input id="entryTitle" type="text" placeholder="Ex: Mercado" data-placeholder-key="entryTitlePlaceholder" required />
+              </label>
+
+              <label>
+                <span data-i18n="category">Categoria</span>
+                <input id="entryCategory" type="text" placeholder="Ex: Alimentação" data-placeholder-key="entryCategoryPlaceholder" required />
+              </label>
+
+              <label>
+                <span data-i18n="amount">Valor</span>
+                <input id="entryValue" type="number" min="1" step="0.01" placeholder="0,00" required />
+              </label>
+
+              <button class="primary-action" type="submit" data-i18n="addButton">Adicionar</button>
+            </form>
+          </article>
+
+          <article class="panel entry-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow" data-i18n="goalKicker">Nova meta</p>
+                <h2 data-i18n="financialGoal">Objetivo financeiro</h2>
+              </div>
+            </div>
+
+            <form class="entry-form compact" id="goalForm">
+              <label>
+                <span data-i18n="name">Nome</span>
+                <input id="goalName" type="text" placeholder="Ex: Notebook" data-placeholder-key="goalNamePlaceholder" required />
+              </label>
+
+              <label>
+                <span data-i18n="current">Atual</span>
+                <input id="goalCurrent" type="number" min="0" step="0.01" placeholder="0,00" required />
+              </label>
+
+              <label>
+                <span data-i18n="target">Meta</span>
+                <input id="goalTarget" type="number" min="1" step="0.01" placeholder="0,00" required />
+              </label>
+
+              <button class="primary-action" type="submit" data-i18n="createGoal">Criar meta</button>
+            </form>
+          </article>
+        </section>
+
+        <section class="content-grid view-section" data-view="gastos">
+          <article class="panel spending-panel" id="gastos">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow" data-i18n="chartKicker">Gráfico de gastos</p>
+                <h2 data-i18n="categoryDistribution">Distribuição por categoria</h2>
+              </div>
+              <span id="totalCategories">0 categorias</span>
+            </div>
+            <div class="chart-layout">
+              <div class="donut-wrap">
+                <div class="donut" id="donutChart" role="img" aria-label="Gráfico circular de gastos"></div>
+                <div class="donut-center">
+                  <span data-i18n="total">Total</span>
+                  <strong id="donutTotal">R$ 0</strong>
+                </div>
+              </div>
+              <div class="category-list" id="categoryList"></div>
+            </div>
+          </article>
+
+          <article class="panel goals-panel" id="metas" data-view-extra="metas">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow" data-i18n="goalsKicker">Metas financeiras</p>
+                <h2 data-i18n="activeGoals">Objetivos em andamento</h2>
+              </div>
+            </div>
+            <div class="goals-list" id="goalsList"></div>
+          </article>
+        </section>
+
+        <section class="panel table-panel view-section" id="categorias" data-view="categorias">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow" data-i18n="categoriesKicker">Categorias</p>
+              <h2 data-i18n="latestTransactions">Últimas movimentações</h2>
+            </div>
+            <div class="segmented" role="group" aria-label="Tipo de movimentação">
+              <button class="active" type="button" data-type="all" data-i18n="all">Tudo</button>
+              <button type="button" data-type="income" data-i18n="incomePlural">Entradas</button>
+              <button type="button" data-type="expense" data-i18n="expensePlural">Saídas</button>
+            </div>
+          </div>
+
+          <div class="transaction-list" id="transactionList"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
